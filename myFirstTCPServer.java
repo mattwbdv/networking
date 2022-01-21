@@ -1,5 +1,6 @@
 import java.net.*; // for Socket, ServerSocket, and InetAddress
 import java.io.*; // for IOException and Input/OutputStream
+import java.nio.charset.StandardCharsets;
 
 public class myFirstTCPServer {
 
@@ -31,8 +32,10 @@ public class myFirstTCPServer {
             // Receive until client closes connection, indicated by -1 return
             while ((recvMsgSize = in.read(byteBuffer)) != -1) {
                 out.write(byteBuffer, 0, recvMsgSize);
-                String message = in.toString().toUpperCase();
-                System.out.println(message);
+                String v = new String(byteBuffer, StandardCharsets.UTF_8);
+                v.toUpperCase();
+                System.out.println(v);
+
             }
 
             clntSock.close(); // Close the socket. We are done with this client!
