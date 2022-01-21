@@ -33,8 +33,7 @@ public class myFirstTCPServer {
             while ((recvMsgSize = in.read(byteBuffer)) != -1) {
                 out.write(byteBuffer, 0, recvMsgSize);
                 String v = new String(byteBuffer, StandardCharsets.UTF_8);
-                v.toUpperCase();
-                System.out.println(v);
+                System.out.println(v.toUpperCase());
 
             }
 
