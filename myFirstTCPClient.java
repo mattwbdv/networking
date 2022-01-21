@@ -42,7 +42,8 @@ public class myFirstTCPClient {
                 totalBytesRcvd += bytesRcvd;
             }
             long endTime = System.nanoTime();
-            long time = (endTime - startTime) / 1000000;
+            long delayNS = endTime - startTime;
+            long time = TimeUnit.MILLISECONDS.convert(delayNS, TimeUnit.NANOSECONDS);
 
             System.out.println("The message was received by the server and it read: '" + new String(byteBuffer)
                     + "''. The message took " + time + " milliseconds to be sent.");
