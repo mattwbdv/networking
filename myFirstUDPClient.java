@@ -58,8 +58,6 @@ public class myFirstUDPClient {
             else
                 System.out.println("No response -- giving up.");
 
-            socket.close();
-
             long endTime = System.currentTimeMillis();
             long delayNS = endTime - startTime;
 
@@ -67,6 +65,8 @@ public class myFirstUDPClient {
                     + "''. The message took " + delayNS + " milliseconds to be sent.");
 
         }
+
+        socket.close();
 
     }
 }
