@@ -44,11 +44,9 @@ public class myFirstTCPClient {
             }
             long endTime = System.currentTimeMillis();
             long delayNS = endTime - startTime;
-            long time = TimeUnit.MILLISECONDS.convert(delayNS, TimeUnit.NANOSECONDS);
 
             System.out.println("The message was received by the server and it read: '" + new String(byteBuffer)
-                    + "''. The message took " + time + " milliseconds to be sent.");
-            System.out.println(delayNS + "Milliseconds not converted");
+                    + "''. The message took " + delayNS + " milliseconds to be sent.");
 
         }
 
