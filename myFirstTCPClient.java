@@ -1,18 +1,17 @@
 import java.net.*; // for Socket
 import java.io.*; // for IOException and Input/OutputStream
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class myFirstTCPClient {
 
     public static void main(String[] args) throws IOException {
 
-        if ((args.length < 2) || (args.length > 3)) // Test for correct # of args
-            throw new IllegalArgumentException("Parameter(s): <Server> <Word> [<Port>]");
+        if (args.length != 2) // Test for correct # of args
+            throw new IllegalArgumentException("Parameter(s): <Server> <Port>");
 
         String server = args[0]; // Server name or IP address
-        // Convert input String to bytes using the default character encoding
-        byte[] byteBuffer = args[1].getBytes();
-
-        int servPort = (args.length == 3) ? Integer.parseInt(args[2]) : 7;
+        int servPort = Integer.parseInt(args[1]); // Port number
 
         // Create socket that is connected to server on specified port
         Socket socket = new Socket(server, servPort);
@@ -21,20 +20,36 @@ public class myFirstTCPClient {
         InputStream in = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
 
-        out.write(byteBuffer); // Send the encoded string to the server
+        // Using Scanner for Getting Input from User
+        Scanner scanning = new Scanner(System.in);
+        byte[] byteBuffer = null;
 
-        // Receive the same string back from the server
-        int totalBytesRcvd = 0; // Total bytes received so far
-        int bytesRcvd; // Bytes received in last read
-        while (totalBytesRcvd < byteBuffer.length) {
-            if ((bytesRcvd = in.read(byteBuffer, totalBytesRcvd,
-                    byteBuffer.length - totalBytesRcvd)) == -1)
-                throw new SocketException("Connection close prematurely");
-            totalBytesRcvd += bytesRcvd;
+        // Convert input String to bytes using the default character encoding
+
+        while (scanning.nextLine() != "stop") {
+            String s = scanning.nextLine();
+            byteBuffer = s.getBytes();
+
+            out.write(byteBuffer); // Send the encoded string to the server
+            long startTime = System.nanoTime();
+
+            // Receive the same string back from the server
+            int totalBytesRcvd = 0; // Total bytes received so far
+            int bytesRcvd; // Bytes received in last read
+            while (totalBytesRcvd < byteBuffer.length) {
+                if ((bytesRcvd = in.read(byteBuffer, totalBytesRcvd,
+                        byteBuffer.length - totalBytesRcvd)) == -1)
+                    throw new SocketException("Connection close prematurely");
+                totalBytesRcvd += bytesRcvd;
+            }
+            long endTime = System.nanoTime();
+            long time = (endTime - startTime) / 1000000;
+
+            System.out.println("Received: " + new String(byteBuffer) + " in " + time + " milliseconds");
+
         }
 
-        System.out.println("Received: " + new String(byteBuffer));
-
+        scanning.close(); // close scanner
         socket.close(); // Close the socket and its streams
     }
 }
