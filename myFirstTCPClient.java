@@ -26,10 +26,11 @@ public class myFirstTCPClient {
 
         // Convert input String to bytes using the default character encoding
         String stringToSend = "";
+        long startTime = System.currentTimeMillis();
+
         while ((stringToSend = scanning.nextLine()) != "stop") {
             byteBuffer = stringToSend.getBytes();
 
-            long startTime = System.currentTimeMillis();
             out.write(byteBuffer); // Send the encoded string to the server
 
             // Receive the same string back from the server
