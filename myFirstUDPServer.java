@@ -1,5 +1,6 @@
 import java.net.*; // for DatagramSocket, DatagramPacket, and InetAddress
 import java.io.*; // for IOException
+import java.nio.charset.StandardCharsets;
 
 public class myFirstUDPServer {
 
@@ -19,7 +20,14 @@ public class myFirstUDPServer {
             socket.receive(packet); // Receive packet from client
             System.out.println("Handling client at " +
                     packet.getAddress().getHostAddress() + " on port " + packet.getPort());
+
+            byte[] buffer = new byte[1024];
+
+            String v = new String(buffer, 0, packet.getLength());
+            System.out.println(v.toUpperCase());
+
             socket.send(packet); // Send the same packet back to client
+
             packet.setLength(ECHOMAX); // Reset length to avoid shrinking buffer
         }
         /* NOT REACHED */
