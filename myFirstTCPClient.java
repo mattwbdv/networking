@@ -29,8 +29,8 @@ public class myFirstTCPClient {
         while ((stringToSend = scanning.nextLine()) != "stop") {
             byteBuffer = stringToSend.getBytes();
 
-            out.write(byteBuffer); // Send the encoded string to the server
             long startTime = System.nanoTime();
+            out.write(byteBuffer); // Send the encoded string to the server
 
             // Receive the same string back from the server
             int totalBytesRcvd = 0; // Total bytes received so far
@@ -44,7 +44,8 @@ public class myFirstTCPClient {
             long endTime = System.nanoTime();
             long time = (endTime - startTime) / 1000000;
 
-            System.out.println("Received: " + new String(byteBuffer) + " in " + time + " milliseconds");
+            System.out.println("The message was received by the server and it read: " + new String(byteBuffer)
+                    + ". The message took " + time + " milliseconds to be sent.");
 
         }
 

@@ -29,8 +29,11 @@ public class myFirstTCPServer {
             OutputStream out = clntSock.getOutputStream();
 
             // Receive until client closes connection, indicated by -1 return
-            while ((recvMsgSize = in.read(byteBuffer)) != -1)
+            while ((recvMsgSize = in.read(byteBuffer)) != -1) {
                 out.write(byteBuffer, 0, recvMsgSize);
+                String message = in.toString().toUpperCase();
+                System.out.println(message);
+            }
 
             clntSock.close(); // Close the socket. We are done with this client!
         }
