@@ -21,10 +21,14 @@ public class myFirstUDPServer {
             System.out.println("Handling client at " +
                     packet.getAddress().getHostAddress() + " on port " + packet.getPort());
 
-            byte[] buffer = new byte[1024];
+            String str = new String(
+                    packet.getData(),
+                    packet.getOffset(),
+                    packet.getLength(),
+                    StandardCharsets.UTF_8 // or some other charset
+            );
 
-            String v = new String(buffer, 0, packet.getLength());
-            System.out.println(v.toUpperCase());
+            System.out.println(str.toUpperCase());
 
             socket.send(packet); // Send the same packet back to client
 
