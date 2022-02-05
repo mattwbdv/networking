@@ -40,10 +40,11 @@ public class ClientUDP {
 
     }
 
+    DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
+
     if (multiVariables) {
-      DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
       Request request = new Request(TML, requestID, opCode, numOperands, op1, op2);
-      RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
+      RequestEncoder encoder = (new RequestEncoderBin());
       byte[] codedRequest = encoder.encode(request); // Encode request
       DatagramPacket message = new DatagramPacket(codedRequest,
           codedRequest.length,
@@ -65,9 +66,8 @@ public class ClientUDP {
       System.out.println(receivedResponse);
 
     } else {
-      DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
       Request request = new Request(TML, requestID, opCode, numOperands, op1);
-      RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
+      RequestEncoder encoder = (new RequestEncoderBin());
       byte[] codedRequest = encoder.encode(request); // Encode request
       DatagramPacket message = new DatagramPacket(codedRequest,
           codedRequest.length,
